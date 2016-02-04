@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>jQuery maphilightselect</title>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script type="text/javascript" src="jquery.maphilightselect.js"></script>
+    <script type="text/javascript">$(function() {
+         $('.map').maphilightselect({id_prop: "id", selected_list1: $("#areas_green"), selected_list2: $("#areas_red")});
+    });</script>
+</head>
+<body>
+<h1>Three-State Map Selector</h1>
+<p>
+<img src="boxes.png" class="map" usemap="#simple">
+<map name="simple">
+<area id="one" shape="poly" coords="90,88,168,84,185,90,190,167,110,175,94,164" title="">
+<area id="two" shape="poly" coords="224,50,331,50,333,117,225,120" title="">
+<area id="three" shape="circle" coords="282,185,65" title="">
+</map>
+</p>
+
+<input type="hidden" id="areas_green" name="areas" value="one">
+<input type="hidden" id="areas_red" name="areas" value="">
+
+</body>
+</html>
