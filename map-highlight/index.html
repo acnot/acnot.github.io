@@ -6,7 +6,12 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
     <script type="text/javascript" src="jquery.maphilightselect.js"></script>
     <script type="text/javascript">$(function() {
-         $('.map').maphilightselect({id_prop: "id", selected_list1: $("#areas_green"), selected_list2: $("#areas_red")});
+         $('.map').maphilightselect({
+		 	selections: [
+				{ color: '00ff00', input_id: 'areas_green' },
+				{ color: 'ff0000', input_id: 'areas_red' },
+				{ color: '0000ff', input_id: 'areas_blue' }
+			]});
     });</script>
 </head>
 <body>
@@ -22,6 +27,7 @@
 
 <input type="hidden" id="areas_green" name="areas" value="one">
 <input type="hidden" id="areas_red" name="areas" value="">
+<input type="hidden" id="areas_blue" name="areas" value="two">
 
 </body>
 </html>

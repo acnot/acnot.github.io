@@ -1,6 +1,6 @@
 /* Mix of jQuery plugins Maphilight and Mapselect
- * Also added 3-click cycle process: green, red, none.
- * 06-09-2014 / Max Kuklin
+ * Also added configured multi-click cycle process, by default it's green, red, none.
+ * created 06-09-2014, updated 03-03-2016 / Max Kuklin
  */
 (function($) {
 	var has_VML, has_canvas, create_canvas_for, add_shape_to, clear_canvas, shape_from_area,
@@ -314,10 +314,11 @@
 					id = this[options.id_prop],
 					data = $this.mouseout().data('maphilightselect') || {},
 					_mode = parseInt($this.data('mode')) || 0,
-					mode = _mode, select;
+					mode = _mode, select, data;
 				
-				mode = 2 === mode ? 0 : mode+1;
+				mode = mode >= options.selections.length ? 0 : mode+1;
 				select = 0 === mode ? 0 : 1;
+				data = mode && options.selections[mode-1];
 				
 				if (1 === mode && lists && lists[mode]) {
 					var i = 0;
@@ -326,7 +327,7 @@
 				}
 
 				if (mode > 0) {
-					data.strokeColor = data.fillColor = 1 === mode ? '00ff00' : 'ff0000';
+					data.strokeColor = data.fillColor = data.color;
 				} else {
 					delete data.fillColor;
 					delete data.strokeColor;
@@ -339,13 +340,14 @@
 					var list = lists[mode] || {};
 					list[id] = $this;
 					lists[mode] = list;
-					options["selected_list"+mode].val(jQuery.map(list, function(e){ return e.attr(options.id_prop); }).join(options["separator"]));
+					document.getElementById(data.input_id).value = jQuery.map(list, function(e){ return e.attr(options.id_prop); }).join(options["separator"]);
 				}
 				if (lists[_mode]) {
 					var list = lists[_mode] || {};
 					delete list[id];
 					lists[_mode] = list;
-					options["selected_list"+_mode].val(jQuery.map(list, function(e){ return e.attr(options.id_prop); }).join(options["separator"]));
+					var input = document.getElementById(options.selections[_mode-1].input_id);
+					input.value = jQuery.map(list, function(e){ return e.attr(options.id_prop); }).join(options["separator"]);
 				}
 
 				return false;
@@ -397,9 +399,14 @@
 					map.find("area[" + options["id_prop"] + "=" + value + "]").data("mode", mode-1).trigger("click.maphilightselect");
 				});
 			};
-
-			options.selected_list1 && preselect(options.selected_list1, 1);
-			options.selected_list2 && preselect(options.selected_list2, 2);
+			
+			$.each(options.selections, function(i, data){
+				var input = document.getElementById(data.input_id);
+				$.each(input.value.split(options["separator"]), function(_i, value){
+					if (value === "") return;
+					map.find("area[" + options["id_prop"] + "=" + value + "]").data("mode", i).trigger("click.maphilightselect");
+				});
+			});
 		});
 	};
 	$.fn.maphilightselect.defaults = {
@@ -426,8 +433,10 @@
 		shadowFrom: false,
 		// mapselect
 		id_prop: "id", 
-		selected_list1: false, 
-		selected_list2: false, 
+		selections: [
+			{ color: '00ff00', input_id: 'areas_green' },
+			{ color: 'ff0000', input_id: 'areas_red' }
+		],
 		separator: ",", 
 		max_selected : 25
 	};
