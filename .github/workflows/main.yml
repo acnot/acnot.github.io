@@ -15,11 +15,12 @@ jobs:
         with:
           ref: dev
           submodules: true
+          token: ${{ secrets.ACCESS_TOKEN }}
       - name: Merge
         run: git merge -X theirs origin/master
       - name: Push
         run: |
-          git -c http.extraheader="AUTHORIZATION: basic ${{ github.token }}" push origin
+          git -c http.extraheader="AUTHORIZATION: basic ${{ secrets.ACCESS_TOKEN }}" push origin
 #      - uses: srt32/git-actions@v0.0.3
 #        with: 
 #          args: git status
