@@ -9,4 +9,4 @@ jobs:
     steps:
     - uses: srt32/git-actions@v0.0.3
       with: 
-        arg: git status
+        args: git status
