@@ -1,6 +1,9 @@
 name: Auto-merge
 
-on: [push]
+on:
+  push:
+    branches: 
+      - master
 
 jobs:
   merge:
@@ -10,9 +13,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
         with:
+          ref: dev
           submodules: true
-      - name: Status
-        run: git status
+      - name: Merge
+        run: git merge -X theirs origin/master
+      - name: Push
+        run: git push origin 
 #      - uses: srt32/git-actions@v0.0.3
 #        with: 
 #          args: git status
