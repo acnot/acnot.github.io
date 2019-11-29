@@ -20,6 +20,8 @@ jobs:
         run: git merge -X theirs origin/master
       - name: Push
         run: |
+          git config --global user.email "max.kuklin@eu.m3.com"
+          git config --global user.name "Max Kuklin"
           git -c http.extraheader="AUTHORIZATION: acnot ${{ secrets.ACCESS_TOKEN }}" push origin
 #      - uses: srt32/git-actions@v0.0.3
 #        with: 
