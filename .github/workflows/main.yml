@@ -7,9 +7,12 @@ jobs:
     name: merge to dev
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - name: Checkout
+        uses: actions/checkout@v1
         with:
           submodules: true
-      - uses: srt32/git-actions@v0.0.3
-        with: 
-          args: git status
+      - name: Status
+        run: git status
+#      - uses: srt32/git-actions@v0.0.3
+#        with: 
+#          args: git status
