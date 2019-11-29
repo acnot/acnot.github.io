@@ -18,9 +18,9 @@ jobs:
 #          token: ${{ secrets.ACCESS_TOKEN }}
       - name: Merge
         run: |
+          git merge -X theirs origin/master
           git remote rm origin
           git remote add origin https://acnot:${{ secrets.ACCESS_TOKEN }}@github.com/acnot/acnot.github.io.git
-          git merge -X theirs origin/master
           git push origin dev
 #      - uses: srt32/git-actions@v0.0.3
 #        with: 
