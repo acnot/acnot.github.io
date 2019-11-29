@@ -1,4 +1,4 @@
-name: CI
+name: Auto-merge
 
 on: [push]
 
@@ -7,6 +7,9 @@ jobs:
     name: merge to dev
     runs-on: ubuntu-latest
     steps:
-    - uses: srt32/git-actions@v0.0.3
-      with: 
-        args: git status
+      - uses: actions/checkout@v1
+        with:
+          submodules: true
+      - uses: srt32/git-actions@v0.0.3
+        with: 
+          args: git status
